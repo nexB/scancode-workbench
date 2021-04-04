@@ -70,6 +70,10 @@ class ScanDataTable extends Controller {
     // clear the global search box
     this.dataTable().search('').columns().search('').draw();
   }
+  getSearchPreference() {
+    //get the value of checkbox button
+    return $("input[name='search-preference']:checked").val();
+  }
 
   setColumnFilter(columnName, value) {
     // Get the ScanData table column and make sure it's visible
@@ -306,7 +310,7 @@ class ScanDataTable extends Controller {
         if (columnSearch) {
           const columnName = dataTablesInput.columns[i].name;
           this.dataTable().column(`${columnName}:name`).visible(true);
-          const exactFilterColumnNames = ['extension', 'programming_language', 'name'];
+          
 
           if (i === 0) {
             // Column 0 is the "path", which should only match
@@ -340,13 +344,9 @@ class ScanDataTable extends Controller {
                 { $eq: null }
               ]
             };
-          } else if (exactFilterColumnNames.includes(columnName)) {
-            query.where.$and[columnName] = {
-              $eq: columnSearch
-            };
           } else {
             query.where.$and[columnName] = {
-              $like: `%${columnSearch}%`
+              $eq: columnSearch
             };
           }
         }
@@ -360,11 +360,22 @@ class ScanDataTable extends Controller {
         query.where.$and.$or = [];
         for (let i = 0; i < dataTablesInput.columns.length; i++) {
           const orSearch = {};
+          const columnVisible = this.dataTable().columns(i);
+          if (this.getSearchPreference() === `global-search`){
           orSearch[dataTablesInput.columns[i].name] = {
             $like: Sequelize.literal(`"%${escapedSearch}%" ESCAPE '\\'`)
           };
           query.where.$and.$or.push(orSearch);
         }
+        else {
+          if (columnVisible.visible()[0] === true) {
+          orSearch[dataTablesInput.columns[i].name] = {
+            $like: Sequelize.literal(`"%${escapedSearch}%" ESCAPE '\\'`)
+          };
+          query.where.$and.$or.push(orSearch);  
+        }
+      }
+      
       }
 
       // Execute the database find to get the rows of data

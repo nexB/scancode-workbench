@@ -356,6 +356,11 @@ body {
   text-align: right;
 }
 
+.checked-inline {
+  margin: 4px;
+  margin-top: 0;
+}
+
 .dataTable td select {
   width: 100%;
 }

@@ -103,6 +103,10 @@ $(document).ready(() => {
     updateViewsByPath(scanDataTable._selectedPath);
   });
 
+  $(document).on('click', '.checked-inline', () => {
+    scanDataTable.getSearchPreference();
+  });
+  
   $(document).on('click', '#showApiKeyButton', () => {
     // Toggle API key visibilty (See issue: #391)
     const apiKeyInput = document.getElementById('apiKey');
