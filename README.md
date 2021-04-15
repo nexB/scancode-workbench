@@ -43,7 +43,7 @@ information captured by a scan.  The samples are located at
 the [documentation](https://scancode-workbench.readthedocs.io) for more 
 information on how to use ScanCode Workbench.
 
-![Import a JSON file](https://scancode-workbench.readthedocs.io/en/develop/_images/import-json-file.gif)
+[Import a JSON file](https://scancode-workbench.readthedocs.io/en/develop/how-to-guides/load-your-data/import-json.html)
 
 ## Building
 
